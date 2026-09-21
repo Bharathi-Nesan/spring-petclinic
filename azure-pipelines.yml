@@ -5,6 +5,16 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
+
+- script: |
+    echo "Current directory:"
+    pwd
+    echo "Repository files:"
+    ls -la
+    echo "Searching for pom.xml:"
+    find . -name "pom.xml" -print
+  displayName: 'Check project files'
+
 - task: Maven@4
   inputs:
     mavenPomFile: 'pom.xml'
