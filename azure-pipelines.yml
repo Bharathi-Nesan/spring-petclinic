@@ -1,19 +1,16 @@
-# Azure Pipeline for Maven Project
-
 trigger:
 - main
 
 pool:
-  vmImage: 'ubuntu-24.04'
+  vmImage: ubuntu-latest
 
 steps:
-- script: |
-    echo "Starting Maven Build..."
-    mvn clean package
-    echo "Maven Build Completed Successfully!"
-  displayName: 'Build Maven Project'
-
-- script: |
-    echo "Running Java Application..."
-    mvn exec:java
-  displayName: 'Run Java Application'
+- task: Maven@4
+  inputs:
+    mavenPomFile: 'pom.xml'
+    goals: 'clean test package'
+    publishJUnitResults: true
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: '1.17'
+    mavenVersionOption: 'Default'
